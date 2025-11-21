@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package NotificationGRPCService;
+import "google/protobuf/empty.proto";
+
+service NotificationGRPCServiceContract {
+  rpc SendNotification (NotificationAddRequest) returns (NotificationAddResponse);
+}
+
+
+message NotificationAddRequest{
+	    string Title = 1;
+        string Message = 2;
+        string Description = 3;
+       
+        string TargetNamespace = 4;
+        string SendToUserType = 5;
+        string Tag = 6;
+        string UserId = 7;
+}
+
+message NotificationAddResponse{
+	    bool success = 1;
+        string message=2;
+
+}
+

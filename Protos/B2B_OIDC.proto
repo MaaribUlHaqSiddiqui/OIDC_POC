@@ -1,0 +1,59 @@
+syntax = "proto3";
+package B2BOIDCManagement;
+
+
+service B2B_OIDCGRPCServiceContract {
+ 
+  rpc ValidateClientCrendentials (RequestValidateCredentials) returns (B2B_OIDCGRPCTemplate);
+  rpc GetApplicationDetailsGRPC(RequestGetApplicationDetails) returns(B2B_OIDCGRPCTemplate);
+ 
+}
+message RequestGetApplicationDetails{
+    string ClientId=1;
+    string ClientSecret=2;
+
+}
+
+message ResponseGetApplicationDetails{
+    string ApplicationName=1;
+    string ApplicationMode=2;
+     repeated string reDirectUrls = 3; 
+    repeated string scopes = 4;
+    int32 UserDeviceLimit=5;
+    bool MFA=6;
+
+}
+
+
+
+message ResponseGetScopeForApplication {
+    string scopeName = 1;
+}
+message RequestValidateCredentials{
+	string ClientId=1;
+	string ClientSecret=2;
+	string Scope=3;
+}
+
+
+message ResponseValidateCredentials{
+  bool isSuccess=1;
+}
+
+
+message B2B_OIDCGRPCTemplate {
+    bool IsApiHandled=1;
+    bool IsRequestSuccess=2;
+    int32 StatusCode=3;
+    string Message=4;
+    repeated string Exceptions=5;
+
+    oneof Data{
+        
+        ResponseValidateCredentials ValidateCredentials=6;
+        ResponseGetApplicationDetails ApplicationDetails=7;
+    }
+    
+        
+}
+

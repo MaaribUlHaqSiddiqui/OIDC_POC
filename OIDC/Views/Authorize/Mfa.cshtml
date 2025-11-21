@@ -1,0 +1,84 @@
+﻿@model OIDC.Models.MfaViewModel
+@{
+    ViewData["Title"] = "MFA Verification";
+}
+
+<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#ffffff;">
+    <div style="width:360px; text-align:center; padding:40px 30px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); background-color:#fff;">
+
+        <img src="~/images/lockkeyz-logo.png" alt="LOCKKEYZ Logo" style="height:70px; margin-bottom:20px;" />
+
+        <h2 style="margin-bottom:20px; color:#333;">Multi-Factor Authentication</h2>
+        <p style="font-size:14px; color:#555;">Enter the 6-digit code from your authenticator app.</p>
+
+        @using (Html.BeginForm("VerifyMfa", "Authorize", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
+                @for (int i = 0; i < 6; i++)
+                {
+                    <input type="text" maxlength="1" class="totp-input"
+                           oninput="handleInput(event, @i)" onkeydown="handleBackspace(event, @i)"
+                           style="width:45px; height:55px; font-size:24px; text-align:center; border:1px solid #ccc; border-radius:5px;" />
+                }
+            </div>
+
+            @Html.HiddenFor(m => m.Totp, new { id = "Totp" })
+            @Html.HiddenFor(m => m.ClientId)
+            @Html.HiddenFor(m => m.RedirectUri)
+            @Html.HiddenFor(m => m.Scope)
+            @Html.HiddenFor(m => m.State)
+            @Html.HiddenFor(m => m.UserName)
+            @Html.HiddenFor(m => m.Nonce)
+
+            <button type="submit"
+                    style="margin-top:30px; background-color:#007bff; color:white; border:none; padding:10px 20px; border-radius:4px; cursor:pointer; font-size:16px;">
+                Verify Code
+            </button>
+        }
+    </div>
+</div>
+
+<script>
+    const inputs = document.querySelectorAll('.totp-input');
+
+    function updateHiddenTotp() {
+        let totp = '';
+        inputs.forEach(i => totp += i.value);
+        document.getElementById('Totp').value = totp;
+    }
+
+    function handleInput(event, index) {
+        const input = event.target;
+        const value = input.value;
+
+        if (!/^[0-9]$/.test(value)) {
+            input.value = '';
+            return;
+        }
+
+        if (value.length === 1 && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+        }
+
+        updateHiddenTotp();
+    }
+
+    function handleBackspace(event, index) {
+        const input = event.target;
+
+        if (event.key === 'Backspace') {
+            if (input.value === '' && index > 0) {
+                inputs[index - 1].focus();
+                inputs[index - 1].value = '';
+            }
+            updateHiddenTotp();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        inputs[0].focus();
+        updateHiddenTotp();
+    });
+</script>

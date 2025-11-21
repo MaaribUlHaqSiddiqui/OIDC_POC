@@ -1,0 +1,81 @@
+syntax = "proto3";
+package AuthManagementGRPC;
+
+service AuthManagementGRPCServiceContract {
+  rpc GenerateOtp (RequestGenerateOtp) returns (AuthManagementGRPCTemplate);
+  rpc VerifyOtp (RequestVerifyOtp) returns (AuthManagementGRPCTemplate);
+  rpc GetToken (RequestToken) returns (AuthManagementGRPCTemplate);
+  rpc GetTokenFromRefreshToken (RequestTokenFromRefreshToken) returns (AuthManagementGRPCTemplate);
+  rpc GetUserInfoFromToken (RequestGetUserInfoFromToken) returns (AuthManagementGRPCTemplate);
+}
+
+message AuthManagementGRPCTemplate {
+    bool IsApiHandled=1;
+    bool IsRequestSuccess=2;
+    int32 StatusCode=3;
+    string Message=4;
+    repeated string Exceptions=5;
+
+    oneof Data{
+        ResponseGenerateOtp ResponseGenerateOtp=6;
+        ResponseVerifyOtp ResponseVerifyOtp=7;
+        ResponseToken ResponseToken=8;
+        ResponseGetUserInfoFromToken ResponseGetUserInfoFromToken=9;
+    }        
+}
+
+message RequestGenerateOtp{
+    string email=1;
+    string clientId=2;
+}
+
+message ResponseGenerateOtp{
+    bool IsGenerated=1;
+}
+
+message RequestVerifyOtp{
+    string otp=1;
+    string email=2;
+    string clientId=3;
+}
+
+message ResponseVerifyOtp{
+    bool IsVerified=1;
+}
+
+message RequestToken{
+    string Email=1;
+    string Scope=2;
+}
+
+message RequestTokenFromRefreshToken{
+    string Email=1;
+    string Scope=2;
+    string RefreshToken=3;
+}
+
+message ResponseToken{
+    string Token=1;
+    string RefreshToken=2;
+}
+
+message RequestGetUserInfoFromToken
+{
+    string AccessToken=1;
+}
+
+message ResponseGetUserInfoFromToken
+{
+    string UserId=1;
+    string Email=2;   
+    string UserType=3;
+    string SessionStartDate=4;
+    string SessionEndDate=5;
+    string Resources=6;
+    string Scope=7;
+}
+
+
+
+
+

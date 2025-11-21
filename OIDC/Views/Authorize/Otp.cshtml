@@ -1,0 +1,168 @@
+﻿@* @model OtpViewModel *@
+
+@* @{ *@
+@*     ViewBag.Title = "Enter OTP"; *@
+@* } *@
+
+@* <h2>Enter OTP</h2> *@
+
+@* <style> *@
+@*     .otp-container { *@
+@*         display: flex; *@
+@*         justify-content: center; *@
+@*         gap: 10px; *@
+@*         margin-top: 20px; *@
+@*     } *@
+
+@*     .otp-input { *@
+@*         width: 50px; *@
+@*         height: 50px; *@
+@*         font-size: 24px; *@
+@*         text-align: center; *@
+@*         border: 1px solid #ccc; *@
+@*         border-radius: 5px; *@
+@*     } *@
+
+@*     .submit-btn { *@
+@*         display: block; *@
+@*         margin: 30px auto; *@
+@*         padding: 10px 20px; *@
+@*         font-size: 16px; *@
+@*     } *@
+@* </style> *@
+
+@* @using (Html.BeginForm("VerifyOtp", "Authorize", FormMethod.Post)) *@
+@* { *@
+@*     @Html.AntiForgeryToken() *@
+
+@*     <div class="otp-container"> *@
+@*         <input type="text" maxlength="1" class="otp-input" oninput="moveToNext(this, 1)" /> *@
+@*         <input type="text" maxlength="1" class="otp-input" oninput="moveToNext(this, 2)" /> *@
+@*         <input type="text" maxlength="1" class="otp-input" oninput="moveToNext(this, 3)" /> *@
+@*         <input type="text" maxlength="1" class="otp-input" oninput="moveToNext(this, 4)" /> *@
+@*     </div> *@
+
+@*     @Html.HiddenFor(m => m.Otp, new { id = "OTP" }) *@
+@*     @Html.HiddenFor(m => m.ClientId) *@
+@*     @Html.HiddenFor(m => m.RedirectUri) *@
+@*     @Html.HiddenFor(m => m.Scope) *@
+@*     @Html.HiddenFor(m => m.State) *@
+@*     @Html.HiddenFor(m => m.UserName) *@
+@*     @Html.HiddenFor(m => m.Nonce) *@
+
+@*     <button type="submit" class="submit-btn">Submit</button> *@
+@* } *@
+
+@* <script> *@
+@*     function moveToNext(input, index) { *@
+@*         const inputs = document.querySelectorAll('.otp-input'); *@
+@*         if (input.value.length === 1 && index < inputs.length) { *@
+@*             inputs[index].focus(); *@
+@*         } *@
+
+@*         // Combine values into hidden field *@
+@*         let otp = ''; *@
+@*         inputs.forEach(i => otp += i.value); *@
+@*         document.getElementById('OTP').value = otp; *@
+@*     } *@
+
+@*     // Combine on page load in case of back navigation *@
+@*     document.addEventListener('DOMContentLoaded', () => { *@
+@*         moveToNext({ value: '' }, 0); *@
+@*     }); *@
+@* </script> *@
+
+
+
+
+
+
+@model OtpViewModel
+@{
+    ViewData["Title"] = "Enter OTP";
+}
+
+<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#ffffff;">
+    <div style="width:360px; text-align:center; padding:40px 30px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); background-color:#fff;">
+
+        <!-- Logo -->
+        <img src="~/images/lockkeyz-logo.png" alt="LOCKKEYZ Logo" style="height:70px; margin-bottom:20px;" />
+
+        <!-- Title -->
+        <h2 style="margin-bottom:20px; color:#333;">Enter OTP</h2>
+        <p style="font-size:14px; color:#555;">Please enter the 4-digit code sent to your email.</p>
+
+        @using (Html.BeginForm("VerifyOtp", "Authorize", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
+                @for (int i = 0; i < 4; i++)
+                {
+                    <input type="text" maxlength="1" class="otp-input"
+                           oninput="handleInput(event, @i)" onkeydown="handleBackspace(event, @i)"
+                           style="width:55px; height:55px; font-size:24px; text-align:center; border:1px solid #ccc; border-radius:5px;" />
+                }
+            </div>
+
+            @Html.HiddenFor(m => m.Otp, new { id = "OTP" })
+            @Html.HiddenFor(m => m.ClientId)
+            @Html.HiddenFor(m => m.RedirectUri)
+            @Html.HiddenFor(m => m.Scope)
+            @Html.HiddenFor(m => m.State)
+            @Html.HiddenFor(m => m.UserName)
+            @Html.HiddenFor(m => m.Nonce)
+            @Html.HiddenFor(m => m.IsMFA)
+
+            <button type="submit"
+                    style="margin-top:30px; background-color:#007bff; color:white; border:none; padding:10px 20px; border-radius:4px; cursor:pointer; font-size:16px;">
+                Verify OTP
+            </button>
+        }
+    </div>
+</div>
+
+<script>
+    const inputs = document.querySelectorAll('.otp-input');
+
+    function updateHiddenOtp() {
+        let otp = '';
+        inputs.forEach(i => otp += i.value);
+        document.getElementById('OTP').value = otp;
+    }
+
+    function handleInput(event, index) {
+        const input = event.target;
+        const value = input.value;
+
+        // Allow only digits
+        if (!/^[0-9]$/.test(value)) {
+            input.value = '';
+            return;
+        }
+
+        if (value.length === 1 && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+        }
+
+        updateHiddenOtp();
+    }
+
+    function handleBackspace(event, index) {
+        const input = event.target;
+
+        if (event.key === 'Backspace') {
+            if (input.value === '' && index > 0) {
+                inputs[index - 1].focus();
+                inputs[index - 1].value = '';
+            }
+            updateHiddenOtp();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        inputs[0].focus();
+        updateHiddenOtp();
+    });
+</script>
+

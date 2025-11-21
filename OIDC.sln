@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDC", "OIDC\OIDC.csproj", "{7D7CA061-5B48-46B5-8F87-455D377CC00B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{A1CADFCA-9249-4541-89BC-4D17187F8C2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionManager", "Utility\SessionManager\SessionManager.csproj", "{56BDE6D4-E6B8-4E19-B99B-FB1B84531744}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Utility\Helpers\Helpers.csproj", "{1AB7F7D5-3C43-4309-B5EC-50AAD1549696}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D7CA061-5B48-46B5-8F87-455D377CC00B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D7CA061-5B48-46B5-8F87-455D377CC00B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D7CA061-5B48-46B5-8F87-455D377CC00B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D7CA061-5B48-46B5-8F87-455D377CC00B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56BDE6D4-E6B8-4E19-B99B-FB1B84531744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56BDE6D4-E6B8-4E19-B99B-FB1B84531744}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56BDE6D4-E6B8-4E19-B99B-FB1B84531744}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56BDE6D4-E6B8-4E19-B99B-FB1B84531744}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AB7F7D5-3C43-4309-B5EC-50AAD1549696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AB7F7D5-3C43-4309-B5EC-50AAD1549696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AB7F7D5-3C43-4309-B5EC-50AAD1549696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AB7F7D5-3C43-4309-B5EC-50AAD1549696}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{56BDE6D4-E6B8-4E19-B99B-FB1B84531744} = {A1CADFCA-9249-4541-89BC-4D17187F8C2F}
+		{1AB7F7D5-3C43-4309-B5EC-50AAD1549696} = {A1CADFCA-9249-4541-89BC-4D17187F8C2F}
+	EndGlobalSection
+EndGlobal

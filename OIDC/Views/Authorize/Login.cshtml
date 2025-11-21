@@ -1,0 +1,62 @@
+﻿@* @model LoginViewModel *@
+
+@* <h2>Login</h2> *@
+
+@* <form method="post" asp-action="Login"> *@
+@*     <input type="hidden" asp-for="ClientId" /> *@
+@*     <input type="hidden" asp-for="RedirectUri" /> *@
+@*     <input type="hidden" asp-for="Scope" /> *@
+@*     <input type="hidden" asp-for="State" /> *@
+
+@*     <div> *@
+@*         <label>Username</label> *@
+@*         <input asp-for="UserName" /> *@
+@*     </div> *@
+@*     <button type="submit">Login</button> *@
+@* </form> *@
+
+
+
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#ffffff;">
+    <div style="width:360px; text-align:center; padding:40px 30px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); background-color:#fff;">
+
+        <!-- Logo -->
+        <img src="~/images/lockkeyz-logo.png" alt="LOCKKEYZ Logo" style="height:70px; margin-bottom:20px;" />
+
+        <!-- Title -->
+        <h2 style="margin-bottom:25px; color:#333;">Login</h2>
+
+        <!-- Form -->
+        <form method="post" asp-action="Login" style="display:flex; flex-direction:column; gap:15px;">
+
+            <input type="hidden" asp-for="ClientId" />
+            <input type="hidden" asp-for="RedirectUri" />
+            <input type="hidden" asp-for="Scope" />
+            <input type="hidden" asp-for="State" />
+            <input type="hidden" asp-for="IsMFA" />
+
+            <div style="text-align:left;">
+                <label for="Email" style="font-weight:bold;">Email</label>
+                <input asp-for="UserName" type="email" placeholder="Enter your email"
+                       style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; font-size:15px;" required />
+            </div>
+
+            <button type="submit"
+                    style="background-color:#007bff; color:white; border:none; padding:10px; border-radius:4px; cursor:pointer; font-size:16px;">
+                Login
+            </button>
+        </form>
+
+        <!-- Optional test info -->
+        <div style="margin-top:20px; font-size:14px; color:#555;">
+            <strong>Test Account:</strong><br />
+            user@example.com
+        </div>
+    </div>
+</div>
+
